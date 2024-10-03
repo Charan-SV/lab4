@@ -37,8 +37,5 @@ jobs:
     - name: Check PM2 processes
       run: pm2 list
 
-    - name: Log PM2 output
-      run: pm2 logs "your_app_name"
-
     - name: Access application on browser
       run: curl -I http://localhost:3000
