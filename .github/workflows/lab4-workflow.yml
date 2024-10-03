@@ -22,8 +22,11 @@ jobs:
     - name: Run code coverage
       run: npm run coverage
 
+    - name: Install pm2
+      run: npm install -g pm2
+
     - name: Start the app
-      run: npm start &
+      run: pm2 start npm --name "your-app-name" -- start
 
     - name: Access application on browser
       run: curl -I http://localhost:3000
