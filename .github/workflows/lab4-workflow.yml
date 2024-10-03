@@ -1,23 +1,57 @@
-name: Publish Package to GitHub NPM Registry
+name: Deploy Application
 
-on: 
-  release:
-    types: [published]
-  workflow_dispatch:
+on:
+  push:
+    branches:
+      - main
 
 jobs:
-    npm-package:
-      permissions:                     
-        packages: write  
-      runs-on: ubuntu-latest
-      steps:
-        - name: Checkout Repository
-          uses: actions/checkout@v4
-        - uses: actions/setup-node@v4     
-          with:
-            node-version: '20.x'
-            registry-url: 'https://npm.pkg.github.com/'  
-        - run: npm install
-        - run: npm publish            
-          env:
-            NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+  deploy:
+    runs-on: self-hosted
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14'
+
+    - name: Install Node.js and npm
+      run: |
+        sudo apt update
+        sudo apt install -y nodejs npm
+
+    - name: Check Node.js version
+      run: node --version
+
+    - name: Check npm version
+      run: npm --version
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Run unit tests
+      run: npm test
+
+    - name: Run code coverage
+      run: npm run coverage
+
+    - name: Deploy application
+      env:
+        MONGO_URI: ${{ secrets.MONGO_URI }}
+        MONGO_USERNAME: ${{ secrets.MONGO_USERNAME }}
+        MONGO_PASSWORD: ${{ secrets.MONGO_PASSWORD }}
+      run: |
+        pm2 stop all || true
+        pm2 start npm --name "app" -- start
+
+    - name: Save PM2 process list
+      run: pm2 save
+
+    - name: Wait for server to start
+      run: sleep 10
+
+    - name: Access application on browser
+      run: curl -I http://localhost:3000
