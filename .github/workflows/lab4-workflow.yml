@@ -23,7 +23,7 @@ jobs:
       run: npm run coverage
 
     - name: Install pm2
-      run: npm install -g pm2
+      run: sudo npm install -g pm2
 
     - name: Start the app
       run: pm2 start npm --name "your-app-name" -- start
