@@ -23,7 +23,7 @@ jobs:
       run: npm run coverage
 
     - name: Install pm2
-      run: sudo npm start &
+      run: npm start &
 
     - name: Access application on browser
       run: curl -I http://localhost:3000
