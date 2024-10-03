@@ -25,12 +25,20 @@ jobs:
     - name: Run code coverage
       run: npm run coverage
 
+    - name: Stop application if running
+      run: pm2 stop "your_app_name" || true
+
     - name: Start application with PM2
-      run: |
-        pm2 start npm --name "your_app_name" -- start || pm2 restart "your_app_name"
+      run: pm2 start npm --name "your_app_name" -- start
 
     - name: Wait for application to start
-      run:  sleep 10
+      run: sleep 10
+
+    - name: Check PM2 processes
+      run: pm2 list
+
+    - name: Log PM2 output
+      run: pm2 logs "your_app_name"
 
     - name: Access application on browser
       run: curl -I http://localhost:3000
