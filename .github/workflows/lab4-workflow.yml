@@ -38,17 +38,11 @@ jobs:
     - name: Run code coverage
       run: npm run coverage
 
-    - name: Deploy application
-      env:
-        MONGO_URI: ${{ secrets.MONGO_URI }}
-        MONGO_USERNAME: ${{ secrets.MONGO_USERNAME }}
-        MONGO_PASSWORD: ${{ secrets.MONGO_PASSWORD }}
-      run: |
-        pm2 stop all || true
-        pm2 start npm --name "app" -- start
+    - name: start the app
+      run: npm start
 
-    - name: Save PM2 process list
-      run: pm2 save
+    - name: access
+      run: curl -I http://localhost:3000
 
     - name: Wait for server to start
       run: sleep 10
