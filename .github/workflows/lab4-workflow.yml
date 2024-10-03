@@ -18,21 +18,10 @@ jobs:
       with:
         node-version: '14'
 
-    - name: Install Node.js and npm
-      run: |
-        sudo apt update
-        sudo apt install -y nodejs npm
-
-    - name: Check Node.js version
-      run: node --version
-
-    - name: Check npm version
-      run: npm --version
-
     - name: Install dependencies
       run: npm install
 
-    - name: .env
+    - name: Set up environment variables
       run: npm install dotenv
 
     - name: Run unit tests
@@ -41,11 +30,8 @@ jobs:
     - name: Run code coverage
       run: npm run coverage
 
-    - name: start the app
-      run: npm start
-
-    - name: access
-      run: curl -I http://localhost:3000
+    - name: Start the app
+      run: npm start &
 
     - name: Wait for server to start
       run: sleep 10
