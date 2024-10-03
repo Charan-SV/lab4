@@ -13,7 +13,6 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
-
     - name: Install PM2
       run: npm install -g pm2
 
@@ -29,6 +28,12 @@ jobs:
     - name: Start application with PM2
       run: |
         pm2 start npm --name "your_app_name" -- start || pm2 restart "your_app_name"
+
+    - name: Wait for application to start
+      run: |
+        for i in {1..10}; do
+          curl -I http://localhost:3000 && break || sleep 5
+        done
 
     - name: Access application on browser
       run: curl -I http://localhost:3000
