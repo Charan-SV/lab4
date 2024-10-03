@@ -13,16 +13,8 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: '14'
-
     - name: Install dependencies
       run: npm install
-
-    - name: Set up environment variables
-      run: npm install dotenv
 
     - name: Run unit tests
       run: npm test
@@ -32,9 +24,6 @@ jobs:
 
     - name: Start the app
       run: npm start &
-
-    - name: Wait for server to start
-      run: sleep 10
 
     - name: Access application on browser
       run: curl -I http://localhost:3000
