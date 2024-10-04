@@ -18,7 +18,7 @@ jobs:
       run: npm install
 
     - name: Stop application if running
-      run: pm2 delete your_app_name || true
+      run: pm2 delete web-app || true
 
     - name: Run unit tests
       run: npm test
