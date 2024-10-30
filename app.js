@@ -11,9 +11,9 @@ app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, '/')));
 app.use(cors());
 
-const username = process.env.MONGO_USERNAME;
-const password = process.env.MONGO_PASSWORD;
-const uri = `mongodb+srv://${username}:${password}@supercluster.d83jj.mongodb.net/superData?retryWrites=true&w=majority`;
+const username = 'SuperPassword';
+const password = 'superuser';
+const uri = `mongodb+srv://supercluster.d83jj.mongodb.net/superData?retryWrites=true&w=majority`;
 
 mongoose.connect(uri, {
     useNewUrlParser: true,
